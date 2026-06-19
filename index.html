@@ -10,17 +10,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --blueprint:#0B1626;
-    --blueprint-deep:#070E1A;
-    --panel:#0F1D32;
-    --vellum:#E9EEF3;
-    --graphite:#7C8A9B;
-    --linework:rgba(207,227,242,0.14);
-    --linework-strong:rgba(207,227,242,0.28);
-    --stamp:#C2703D;
-    --stamp-soft:rgba(194,112,61,0.12);
-    --signal:#49C2D1;
-    --signal-soft:rgba(73,194,209,0.12);
+    --bg:#070B14;
+    --bg-soft:#0A0F1C;
+    --panel:#101826;
+    --panel-hover:#16223A;
+    --line:rgba(120,200,255,0.10);
+    --line-strong:rgba(120,200,255,0.22);
+    --text:#EAF1F6;
+    --muted:#7C8A9C;
+    --accent:#39FFC0;
+    --accent-soft:rgba(57,255,192,0.10);
+    --accent2:#FF8A3D;
+    --accent2-soft:rgba(255,138,61,0.10);
     --display:'Space Grotesk',sans-serif;
     --mono:'IBM Plex Mono',Consolas,Menlo,monospace;
     --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
@@ -29,107 +30,159 @@
   html,body{margin:0;padding:0;}
   body{
     font-family:var(--sans);
-    color:var(--vellum);
-    background:var(--blueprint);
+    color:var(--text);
+    background:var(--bg);
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
-  a{color:var(--vellum);text-decoration:none;}
+  a{color:var(--text);text-decoration:none;}
 
-  .wrap{max-width:1040px;margin:0 auto;padding:0 28px;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
 
-  /* ---------- Sheet frame ---------- */
-  .sheet-frame{
+  /* ---------- Ambient animated background ---------- */
+  .bg-glow{
     position:fixed;
-    inset:14px;
-    border:1px solid var(--linework);
+    inset:0;
+    z-index:0;
     pointer-events:none;
-    z-index:50;
+    overflow:hidden;
   }
-  .sheet-frame i{
+  .bg-glow::before,
+  .bg-glow::after{
+    content:"";
     position:absolute;
-    width:14px;
-    height:14px;
-    border:1px solid var(--linework-strong);
+    width:60vmax;
+    height:60vmax;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:0.16;
   }
-  .sheet-frame i:nth-child(1){top:-1px;left:-1px;border-right:none;border-bottom:none;}
-  .sheet-frame i:nth-child(2){top:-1px;right:-1px;border-left:none;border-bottom:none;}
-  .sheet-frame i:nth-child(3){bottom:-1px;left:-1px;border-right:none;border-top:none;}
-  .sheet-frame i:nth-child(4){bottom:-1px;right:-1px;border-left:none;border-top:none;}
-  @media (max-width:760px){.sheet-frame{display:none;}}
+  .bg-glow::before{
+    background:var(--accent);
+    top:-20vmax;
+    left:-15vmax;
+    animation:drift1 26s ease-in-out infinite alternate;
+  }
+  .bg-glow::after{
+    background:var(--accent2);
+    bottom:-25vmax;
+    right:-15vmax;
+    animation:drift2 32s ease-in-out infinite alternate;
+  }
+  @keyframes drift1{
+    from{transform:translate(0,0);}
+    to{transform:translate(8vmax,10vmax);}
+  }
+  @keyframes drift2{
+    from{transform:translate(0,0);}
+    to{transform:translate(-6vmax,-12vmax);}
+  }
+  .bg-grid{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,0,0,0.6), transparent 75%);
+    animation:gridshift 40s linear infinite;
+  }
+  @keyframes gridshift{
+    from{background-position:0 0;}
+    to{background-position:64px 128px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bg-glow::before,.bg-glow::after,.bg-grid{animation:none;}
+  }
 
   /* ---------- Hero ---------- */
   header.hero{
-    background:var(--blueprint-deep);
-    background-image:
-      linear-gradient(var(--linework) 1px, transparent 1px),
-      linear-gradient(90deg, var(--linework) 1px, transparent 1px);
-    background-size:48px 48px;
-    background-position:center;
-    padding:88px 0 64px;
-    border-bottom:1px solid var(--linework-strong);
+    padding:96px 0 64px;
+    border-bottom:1px solid var(--line);
+    position:relative;
   }
   .hero-inner{
     display:flex;
     align-items:center;
     gap:44px;
   }
-  .photo-reticle{
+  .photo-orbit{
     flex:0 0 auto;
-    width:148px;
-    height:148px;
+    width:152px;
+    height:152px;
     position:relative;
+    animation:fadeUp 0.7s ease both;
   }
-  .photo-reticle .ring{
+  .photo-orbit .spin-ring{
+    position:absolute;
+    inset:-10px;
+    border-radius:50%;
+    border:1px dashed var(--line-strong);
+    animation:spin 18s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){.photo-orbit .spin-ring{animation:none;}}
+  @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  .photo-orbit .frame{
     position:absolute;
     inset:0;
     border-radius:50%;
-    border:1px solid var(--linework-strong);
-  }
-  .photo-reticle .tick{
-    position:absolute;
-    background:var(--graphite);
-  }
-  .photo-reticle .tick.n{top:-9px;left:50%;width:1px;height:8px;transform:translateX(-50%);}
-  .photo-reticle .tick.s{bottom:-9px;left:50%;width:1px;height:8px;transform:translateX(-50%);}
-  .photo-reticle .tick.e{right:-9px;top:50%;width:8px;height:1px;transform:translateY(-50%);}
-  .photo-reticle .tick.w{left:-9px;top:50%;width:8px;height:1px;transform:translateY(-50%);}
-  .photo-reticle .frame{
-    position:absolute;
-    inset:8px;
-    border-radius:50%;
     overflow:hidden;
-    background:var(--vellum);
+    background:var(--text);
+    border:2px solid var(--bg);
+    box-shadow:0 0 0 1px var(--line-strong), 0 0 36px var(--accent-soft);
   }
-  .photo-reticle .frame img{
+  .photo-orbit .frame img{
     width:100%;
     height:100%;
     object-fit:cover;
     object-position:center 18%;
     display:block;
   }
+  .hero-text{animation:fadeUp 0.7s ease 0.1s both;}
   .hero-text h1{
     font-family:var(--display);
     font-weight:600;
     margin:0 0 8px;
     font-size:clamp(2.1rem,4vw,2.7rem);
     letter-spacing:-0.01em;
-    color:var(--vellum);
+    color:var(--text);
   }
+  .hero-text h1 .cursor{
+    display:inline-block;
+    width:0.5ch;
+    color:var(--accent);
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
   .hero-text .role{
     font-family:var(--display);
     font-size:1.05rem;
-    color:var(--vellum);
+    color:var(--text);
     margin:0 0 4px;
     font-weight:500;
   }
   .hero-text .role-sub{
-    display:block;
+    display:inline-block;
+    overflow:hidden;
+    white-space:nowrap;
+    border-right:2px solid var(--accent);
     font-family:var(--mono);
     font-size:0.82rem;
-    color:var(--signal);
+    color:var(--accent);
     margin:6px 0 20px;
     letter-spacing:0.01em;
+    width:59ch;
+    max-width:100%;
+    animation:typing 1.8s steps(59,end) 0.5s 1 normal both, caret 0.85s step-end infinite;
+  }
+  @keyframes typing{from{width:0;}}
+  @keyframes caret{50%{border-color:transparent;}}
+  @media (prefers-reduced-motion: reduce){
+    .hero-text .role-sub{animation:none;width:auto;border-right:none;}
   }
   .hero-text .meta{
     display:flex;
@@ -137,12 +190,17 @@
     gap:10px 26px;
     font-family:var(--mono);
     font-size:0.78rem;
-    color:var(--graphite);
+    color:var(--muted);
   }
   .hero-text .meta span{display:inline-flex;align-items:baseline;gap:8px;}
-  .hero-text .meta .tag{color:var(--graphite);text-transform:uppercase;letter-spacing:0.08em;font-size:0.68rem;}
-  .hero-text .meta a{color:var(--vellum);border-bottom:1px solid var(--linework-strong);}
-  .hero-text .meta a:hover{color:var(--signal);border-bottom-color:var(--signal);}
+  .hero-text .meta .tag{color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;font-size:0.68rem;}
+  .hero-text .meta a{color:var(--text);border-bottom:1px solid var(--line-strong);transition:color 0.2s ease, border-color 0.2s ease;}
+  .hero-text .meta a:hover{color:var(--accent);border-bottom-color:var(--accent);}
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(14px);}
+    to{opacity:1;transform:translateY(0);}
+  }
 
   @media (max-width:600px){
     .hero-inner{flex-direction:column;align-items:flex-start;gap:26px;}
@@ -150,9 +208,9 @@
 
   /* ---------- Nav ---------- */
   nav.subnav{
-    background:rgba(11,22,38,0.94);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--linework-strong);
+    background:rgba(7,11,20,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
     position:sticky;
     top:0;
     z-index:10;
@@ -166,11 +224,12 @@
     font-size:0.78rem;
   }
   nav.subnav a{
-    color:var(--graphite);
+    color:var(--muted);
     white-space:nowrap;
     position:relative;
     padding-bottom:4px;
     letter-spacing:0.02em;
+    transition:color 0.2s ease;
   }
   nav.subnav a::after{
     content:"";
@@ -179,89 +238,123 @@
     right:100%;
     bottom:0;
     height:1px;
-    background:var(--signal);
+    background:var(--accent);
+    box-shadow:0 0 8px var(--accent);
     transition:right 0.25s ease;
   }
-  nav.subnav a:hover{color:var(--vellum);}
+  nav.subnav a:hover{color:var(--text);}
   nav.subnav a:hover::after{right:0;}
-  nav.subnav a.active{color:var(--signal);}
+  nav.subnav a.active{color:var(--accent);}
   nav.subnav a.active::after{right:0;}
 
   /* ---------- Sections ---------- */
-  section{padding:60px 0;border-bottom:1px solid var(--linework);}
+  section{padding:64px 0;border-bottom:1px solid var(--line);}
   section:last-of-type{border-bottom:none;}
-  section.alt{background:var(--blueprint-deep);}
+  section.alt{background:var(--bg-soft);}
 
-  .callout{
-    display:flex;
+  .tag-line{
+    display:inline-flex;
     align-items:center;
-    gap:10px;
+    gap:8px;
     margin-bottom:14px;
-  }
-  .callout .code{
     font-family:var(--mono);
-    font-size:0.72rem;
+  }
+  .tag-line .code{
+    font-size:0.74rem;
     font-weight:600;
-    color:var(--blueprint);
-    background:var(--signal);
-    padding:3px 7px;
+    color:var(--accent);
     letter-spacing:0.04em;
   }
-  .callout .leader{
-    flex:0 0 auto;
-    width:28px;
-    height:1px;
-    background:var(--linework-strong);
-  }
-  .callout .label{
-    font-family:var(--mono);
+  .tag-line .label{
     font-size:0.72rem;
     letter-spacing:0.14em;
     text-transform:uppercase;
-    color:var(--graphite);
+    color:var(--muted);
   }
   h2.section-title{
     font-family:var(--display);
-    font-size:1.5rem;
+    font-size:1.55rem;
     font-weight:600;
-    color:var(--vellum);
+    color:var(--text);
     margin:0 0 6px;
   }
   p.section-sub{
-    color:var(--graphite);
+    color:var(--muted);
     margin:0 0 32px;
     font-size:0.92rem;
     max-width:560px;
   }
 
-  /* ---------- Capability entries (datasheet rows) ---------- */
+  /* ---------- Reveal-on-scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+  }
+
+  /* ---------- Chips (shared by skills + metrics) ---------- */
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:var(--mono);
+    font-size:0.74rem;
+    padding:5px 10px;
+    border:1px solid var(--line-strong);
+    border-radius:4px;
+    background:transparent;
+    color:var(--muted);
+    transition:color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    cursor:default;
+  }
+  .chip:hover{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:var(--accent-soft);
+    transform:translateY(-2px);
+    box-shadow:0 4px 14px var(--accent-soft);
+  }
+
+  /* ---------- Capability cards ---------- */
   .cap-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:1px;
-    background:var(--linework);
-    border:1px solid var(--linework);
+    background:var(--line);
+    border:1px solid var(--line);
   }
   .cap-card{
     background:var(--panel);
     padding:26px;
     display:flex;
     flex-direction:column;
+    position:relative;
+    transition:background 0.3s ease, box-shadow 0.3s ease;
+  }
+  .cap-card:hover{
+    background:var(--panel-hover);
+    box-shadow:inset 0 0 0 1px var(--accent-soft), 0 0 32px -8px var(--accent-soft);
+    z-index:2;
   }
   .cap-card .ref{
     font-family:var(--mono);
     font-size:0.68rem;
-    color:var(--graphite);
+    color:var(--muted);
     letter-spacing:0.06em;
     margin-bottom:10px;
     transition:color 0.2s ease;
   }
+  .cap-card:hover .ref{color:var(--accent);}
   .cap-card h3{
     font-family:var(--display);
     font-weight:600;
     margin:0 0 8px;
     font-size:1.05rem;
-    color:var(--vellum);
+    color:var(--text);
     position:relative;
     display:inline-block;
     padding-bottom:10px;
@@ -273,29 +366,25 @@
     bottom:0;
     height:1px;
     width:0;
-    background:var(--signal);
-    transition:width 0.3s ease;
+    background:var(--accent);
+    box-shadow:0 0 8px var(--accent);
+    transition:width 0.35s ease;
   }
   .cap-card:hover h3::after{width:100%;}
-  .cap-card:hover .ref{color:var(--signal);}
   .cap-card .scope{
-    color:var(--graphite);
+    color:var(--muted);
     font-size:0.88rem;
     margin:0 0 16px;
   }
   .tools{
     display:flex;
     flex-wrap:wrap;
-    gap:5px 12px;
+    gap:6px;
     margin-bottom:18px;
-    font-family:var(--mono);
-    font-size:0.74rem;
-    color:var(--graphite);
   }
-  .tools span:not(:last-child)::after{content:" /";margin-left:12px;color:var(--linework-strong);}
 
   .impact{
-    border-top:1px solid var(--linework);
+    border-top:1px solid var(--line);
     padding-top:14px;
     margin-top:auto;
   }
@@ -303,39 +392,47 @@
     font-family:var(--mono);
     font-size:0.66rem;
     letter-spacing:0.1em;
-    color:var(--stamp);
+    color:var(--accent2);
     text-transform:uppercase;
     display:block;
     margin-bottom:8px;
   }
-  .impact p{margin:0 0 10px;font-size:0.86rem;color:var(--vellum);}
+  .impact p{margin:0 0 10px;font-size:0.86rem;color:var(--text);}
   .impact .caption{
     font-size:0.8rem;
-    color:var(--graphite);
+    color:var(--muted);
     margin:0 0 6px;
   }
   .metric-row{
     display:flex;
     flex-wrap:wrap;
-    gap:6px 16px;
+    gap:8px;
     margin-bottom:10px;
-    font-family:var(--mono);
-    font-size:0.78rem;
   }
   .metric-row:last-child{margin-bottom:0;}
   .metric{
-    color:var(--stamp);
-    white-space:nowrap;
+    color:var(--accent2);
+    border-color:rgba(255,138,61,0.3);
   }
-  .metric::before{content:"\2192";margin-right:6px;color:var(--graphite);}
+  .metric:hover{
+    color:var(--accent2);
+    border-color:var(--accent2);
+    background:var(--accent2-soft);
+    box-shadow:0 4px 14px var(--accent2-soft);
+  }
+  .metric .arrow{
+    transition:transform 0.2s ease;
+  }
+  .metric:hover .arrow{transform:translateX(3px);}
 
   /* ---------- Business ---------- */
-  .biz-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--linework);border:1px solid var(--linework);}
-  .biz-card{background:var(--panel);padding:26px;}
-  .biz-card h3{font-family:var(--display);font-weight:600;margin:0 0 12px;color:var(--vellum);font-size:1.02rem;}
-  .biz-card ul{margin:0;padding-left:0;font-size:0.9rem;color:var(--vellum);list-style:none;}
+  .biz-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+  .biz-card{background:var(--panel);padding:26px;transition:background 0.3s ease;}
+  .biz-card:hover{background:var(--panel-hover);}
+  .biz-card h3{font-family:var(--display);font-weight:600;margin:0 0 12px;color:var(--text);font-size:1.02rem;}
+  .biz-card ul{margin:0;padding-left:0;font-size:0.9rem;color:var(--text);list-style:none;}
   .biz-card li{margin-bottom:7px;padding-left:16px;position:relative;}
-  .biz-card li::before{content:"-";position:absolute;left:0;color:var(--graphite);}
+  .biz-card li::before{content:"-";position:absolute;left:0;color:var(--muted);}
 
   /* ---------- Toolbox ---------- */
   .toolbox-grid{display:grid;}
@@ -344,49 +441,52 @@
     grid-template-columns:170px 1fr;
     gap:18px;
     align-items:baseline;
-    padding:13px 0;
-    border-bottom:1px solid var(--linework);
+    padding:14px 10px;
+    border-bottom:1px solid var(--line);
+    border-radius:6px;
+    transition:background 0.2s ease;
   }
+  .toolbox-row:hover{background:var(--panel);}
   .toolbox-row:last-child{border-bottom:none;}
   .toolbox-row .domain{
     font-family:var(--mono);
     font-weight:500;
-    color:var(--graphite);
+    color:var(--muted);
     font-size:0.78rem;
     text-transform:uppercase;
     letter-spacing:0.05em;
   }
-  .toolbox-row .tools{margin-bottom:0;color:var(--vellum);}
-  .toolbox-row .tools span:not(:last-child)::after{color:var(--linework-strong);}
+  .toolbox-row .tools{margin-bottom:0;}
   @media (max-width:600px){
-    .toolbox-row{grid-template-columns:1fr;gap:4px;}
+    .toolbox-row{grid-template-columns:1fr;gap:8px;}
   }
 
   .lang-row{
     display:flex;
     flex-wrap:wrap;
-    gap:6px 16px;
-    font-family:var(--mono);
-    font-size:0.78rem;
-    color:var(--vellum);
+    gap:6px;
   }
-  .lang-row span:not(:last-child)::after{content:" /";margin-left:16px;color:var(--linework-strong);}
 
   /* ---------- Awards ---------- */
-  .awards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--linework);border:1px solid var(--linework);}
-  .award-card{background:var(--panel);padding:24px;}
+  .awards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
+  .award-card{background:var(--panel);padding:24px;transition:background 0.3s ease, box-shadow 0.3s ease;position:relative;}
+  .award-card:hover{
+    background:var(--panel-hover);
+    box-shadow:inset 0 0 0 1px var(--accent2-soft), 0 0 32px -8px var(--accent2-soft);
+    z-index:2;
+  }
   .award-card .badge{
     font-family:var(--mono);
     font-size:0.66rem;
-    color:var(--stamp);
+    color:var(--accent2);
     text-transform:uppercase;
     letter-spacing:0.08em;
     display:block;
     margin-bottom:10px;
   }
   .award-card .badge::before{content:"\2713 ";}
-  .award-card h3{font-family:var(--display);font-weight:600;margin:0 0 8px;font-size:0.98rem;color:var(--vellum);}
-  .award-card p{margin:0;font-size:0.86rem;color:var(--graphite);}
+  .award-card h3{font-family:var(--display);font-weight:600;margin:0 0 8px;font-size:0.98rem;color:var(--text);}
+  .award-card p{margin:0;font-size:0.86rem;color:var(--muted);}
 
   /* ---------- Education ---------- */
   .edu-list{display:flex;flex-direction:column;}
@@ -394,56 +494,39 @@
     display:grid;
     grid-template-columns:150px 1fr;
     gap:18px;
-    padding:16px 0;
-    border-bottom:1px solid var(--linework);
+    padding:16px 10px;
+    border-bottom:1px solid var(--line);
+    border-radius:6px;
+    transition:background 0.2s ease;
   }
+  .edu-item:hover{background:var(--panel);}
   .edu-item:last-child{border-bottom:none;}
   @media (max-width:600px){.edu-item{grid-template-columns:1fr;}}
   .edu-item .dates{
     font-family:var(--mono);
     font-size:0.78rem;
-    color:var(--signal);
+    color:var(--accent);
     white-space:nowrap;
   }
-  .edu-item h3{font-family:var(--display);font-weight:600;margin:0 0 4px;font-size:0.98rem;color:var(--vellum);}
-  .edu-item .org{margin:0;color:var(--graphite);font-size:0.86rem;}
-
-  /* ---------- Title block (signature) ---------- */
-  .titleblock{padding:60px 0 80px;}
-  .tb-grid{
-    border:1px solid var(--linework-strong);
-    font-family:var(--mono);
-    font-size:0.76rem;
-    max-width:520px;
-  }
-  .tb-row{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--linework);}
-  .tb-row:last-child{border-bottom:none;}
-  .tb-row .k{
-    padding:10px 14px;
-    color:var(--graphite);
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-    border-right:1px solid var(--linework);
-    font-size:0.68rem;
-  }
-  .tb-row .v{padding:10px 14px;color:var(--vellum);}
+  .edu-item h3{font-family:var(--display);font-weight:600;margin:0 0 4px;font-size:0.98rem;color:var(--text);}
+  .edu-item .org{margin:0;color:var(--muted);font-size:0.86rem;}
 </style>
 </head>
 <body>
 
-<div class="sheet-frame"><i></i><i></i><i></i><i></i></div>
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
 
 <header class="hero">
   <div class="wrap hero-inner">
-    <div class="photo-reticle">
-      <div class="ring"></div>
-      <div class="tick n"></div><div class="tick s"></div><div class="tick e"></div><div class="tick w"></div>
+    <div class="photo-orbit">
+      <div class="spin-ring"></div>
       <div class="frame">
         <img src="pfp.png" alt="Mo Kamel">
       </div>
     </div>
     <div class="hero-text">
-      <h1>Mo Kamel</h1>
+      <h1>Mo Kamel<span class="cursor">_</span></h1>
       <p class="role">Mechatronics &amp; Robotics Engineer</p>
       <span class="role-sub">Autonomous Systems / Embedded Perception / Test Engineering</span>
       <div class="meta">
@@ -469,74 +552,74 @@
 
   <section id="engineering">
     <div class="wrap">
-      <div class="callout"><span class="code">EN</span><span class="leader"></span><span class="label">Engineering</span></div>
+      <div class="tag-line"><span class="code">[ EN ]</span><span class="label">Engineering</span></div>
       <h2 class="section-title">Engineering Capabilities</h2>
       <p class="section-sub">Organized by domain - tools used and track-record results.</p>
 
       <div class="cap-grid">
 
-        <div class="cap-card">
+        <div class="cap-card reveal">
           <span class="ref">REF EN-01</span>
           <h3>Autonomous Robotics &amp; ROS 2</h3>
           <p class="scope">Mobile and marine robotic platforms - perception, navigation, control on ROS 1 &amp; 2.</p>
           <div class="tools">
-            <span>ROS 1 &amp; 2</span><span>Linux/Ubuntu</span><span>Python</span><span>Embedded C/C++</span><span>Sensor Fusion</span>
+            <span class="chip">ROS 1 &amp; 2</span><span class="chip">Linux/Ubuntu</span><span class="chip">Python</span><span class="chip">Embedded C/C++</span><span class="chip">Sensor Fusion</span>
           </div>
           <div class="impact">
             <span class="impact-kicker">Track Record</span>
             <p>MATE ROV 2021 - 2nd place worldwide, 1st regionally (team Invictus UMVs, vehicle "Brotta II").</p>
             <div class="metric-row">
-              <span class="metric">101.5 / 100 documentation score</span>
-              <span class="metric">only team to exceed 100 pts</span>
+              <span class="chip metric"><span class="arrow">&#8594;</span> 101.5 / 100 documentation score</span>
+              <span class="chip metric"><span class="arrow">&#8594;</span> only team to exceed 100 pts</span>
             </div>
           </div>
         </div>
 
-        <div class="cap-card">
+        <div class="cap-card reveal">
           <span class="ref">REF EN-02</span>
           <h3>Computer Vision &amp; ADAS Perception</h3>
           <p class="scope">Detection and driver-monitoring models trained on custom data and deployed to the edge.</p>
           <div class="tools">
-            <span>OpenCV</span><span>YOLOv8</span><span>MediaPipe</span><span>PyTorch</span><span>TensorFlow</span><span>NumPy</span><span>Pandas</span>
+            <span class="chip">OpenCV</span><span class="chip">YOLOv8</span><span class="chip">MediaPipe</span><span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">NumPy</span><span class="chip">Pandas</span>
           </div>
           <div class="impact">
             <span class="impact-kicker">Track Record</span>
             <p>Driver Monitoring System - bachelor thesis, graded A+.</p>
             <p class="caption">YOLOv8 phone detection · custom 150-image dataset</p>
             <div class="metric-row">
-              <span class="metric">97.8% mAP@0.5</span>
-              <span class="metric">~10 FPS · Raspberry Pi</span>
+              <span class="chip metric"><span class="arrow">&#8594;</span> 97.8% mAP@0.5</span>
+              <span class="chip metric"><span class="arrow">&#8594;</span> ~10 FPS · Raspberry Pi</span>
             </div>
             <p class="caption">MediaPipe drowsiness detection</p>
             <div class="metric-row">
-              <span class="metric">97.47% accuracy</span>
-              <span class="metric">~18-20 FPS · Jetson Nano</span>
+              <span class="chip metric"><span class="arrow">&#8594;</span> 97.47% accuracy</span>
+              <span class="chip metric"><span class="arrow">&#8594;</span> ~18-20 FPS · Jetson Nano</span>
             </div>
           </div>
         </div>
 
-        <div class="cap-card">
+        <div class="cap-card reveal">
           <span class="ref">REF EN-03</span>
           <h3>Embedded Systems &amp; Control</h3>
           <p class="scope">Firmware and real-time control on microcontrollers and single-board computers.</p>
           <div class="tools">
-            <span>Embedded C/C++</span><span>Jetson Nano</span><span>Raspberry Pi</span><span>Arduino</span><span>PLCs</span><span>Altium</span>
+            <span class="chip">Embedded C/C++</span><span class="chip">Jetson Nano</span><span class="chip">Raspberry Pi</span><span class="chip">Arduino</span><span class="chip">PLCs</span><span class="chip">Altium</span>
           </div>
           <div class="impact">
             <span class="impact-kicker">Track Record</span>
             <p class="caption">PPG wearable band</p>
             <div class="metric-row">
-              <span class="metric">validated on 8 subjects</span>
+              <span class="chip metric"><span class="arrow">&#8594;</span> validated on 8 subjects</span>
             </div>
           </div>
         </div>
 
-        <div class="cap-card">
+        <div class="cap-card reveal">
           <span class="ref">REF EN-04</span>
           <h3>Simulation &amp; Digital Twin</h3>
           <p class="scope">Model-based design, control modelling, digital-twin case studies.</p>
           <div class="tools">
-            <span>MATLAB</span><span>Simulink</span><span>Simscape</span><span>SolidWorks</span><span>Fusion 360</span><span>AutoCAD</span>
+            <span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Simscape</span><span class="chip">SolidWorks</span><span class="chip">Fusion 360</span><span class="chip">AutoCAD</span>
           </div>
           <div class="impact">
             <span class="impact-kicker">Track Record</span>
@@ -544,12 +627,12 @@
           </div>
         </div>
 
-        <div class="cap-card">
+        <div class="cap-card reveal">
           <span class="ref">REF EN-05</span>
           <h3>Test, Inspection &amp; Standards</h3>
           <p class="scope">Industrial inspection and standards-compliant specification under live plant conditions.</p>
           <div class="tools">
-            <span>ISO Compliance</span><span>Measurement &amp; Inspection</span><span>Technical Documentation</span>
+            <span class="chip">ISO Compliance</span><span class="chip">Measurement &amp; Inspection</span><span class="chip">Technical Documentation</span>
           </div>
           <div class="impact">
             <span class="impact-kicker">Track Record</span>
@@ -563,12 +646,12 @@
 
   <section id="business" class="alt">
     <div class="wrap">
-      <div class="callout"><span class="code">BU</span><span class="leader"></span><span class="label">Business</span></div>
+      <div class="tag-line"><span class="code">[ BU ]</span><span class="label">Business</span></div>
       <h2 class="section-title">Business &amp; Operations</h2>
       <p class="section-sub">A separate capability track from engineering - program delivery, process, and compliance.</p>
 
       <div class="biz-grid">
-        <div class="biz-card">
+        <div class="biz-card reveal">
           <h3>Competencies</h3>
           <ul>
             <li>Agile/Scrum</li>
@@ -578,7 +661,7 @@
             <li>Accounting</li>
             <li>International tax law</li>
           </ul>
-          <div class="impact" style="border-top:1px solid var(--linework);margin-top:16px;padding-top:14px;">
+          <div class="impact" style="border-top:1px solid var(--line);margin-top:16px;padding-top:14px;">
             <span class="impact-kicker">Track Record</span>
             <p>Chief of Organizers, IOI 2024 - 1,000+ international participants (large-scale program/event delivery).</p>
           </div>
@@ -589,42 +672,42 @@
 
   <section id="toolbox">
     <div class="wrap">
-      <div class="callout"><span class="code">TB</span><span class="leader"></span><span class="label">Skillset</span></div>
+      <div class="tag-line"><span class="code">[ TB ]</span><span class="label">Skillset</span></div>
       <h2 class="section-title">Technical Toolbox</h2>
       <p class="section-sub">Skills grouped by domain.</p>
 
       <div class="toolbox-grid">
-        <div class="toolbox-row">
+        <div class="toolbox-row reveal">
           <span class="domain">Robot Software</span>
-          <div class="tools"><span>ROS 1 &amp; 2</span><span>Linux Ubuntu</span><span>OpenCV</span><span>YOLOv8</span><span>MediaPipe</span></div>
+          <div class="tools"><span class="chip">ROS 1 &amp; 2</span><span class="chip">Linux Ubuntu</span><span class="chip">OpenCV</span><span class="chip">YOLOv8</span><span class="chip">MediaPipe</span></div>
         </div>
-        <div class="toolbox-row">
+        <div class="toolbox-row reveal">
           <span class="domain">Programming</span>
-          <div class="tools"><span>Python</span><span>Embedded C/C++</span><span>Git/GitHub Actions</span><span>CMake</span><span>Docker</span></div>
+          <div class="tools"><span class="chip">Python</span><span class="chip">Embedded C/C++</span><span class="chip">Git/GitHub Actions</span><span class="chip">CMake</span><span class="chip">Docker</span></div>
         </div>
-        <div class="toolbox-row">
+        <div class="toolbox-row reveal">
           <span class="domain">ML &amp; Data</span>
-          <div class="tools"><span>TensorFlow</span><span>PyTorch</span><span>NumPy</span><span>Pandas</span></div>
+          <div class="tools"><span class="chip">TensorFlow</span><span class="chip">PyTorch</span><span class="chip">NumPy</span><span class="chip">Pandas</span></div>
         </div>
-        <div class="toolbox-row">
+        <div class="toolbox-row reveal">
           <span class="domain">Simulation &amp; CAD</span>
-          <div class="tools"><span>MATLAB</span><span>Simulink</span><span>Simscape</span><span>SolidWorks</span><span>Fusion 360</span><span>AutoCAD</span></div>
+          <div class="tools"><span class="chip">MATLAB</span><span class="chip">Simulink</span><span class="chip">Simscape</span><span class="chip">SolidWorks</span><span class="chip">Fusion 360</span><span class="chip">AutoCAD</span></div>
         </div>
-        <div class="toolbox-row">
+        <div class="toolbox-row reveal">
           <span class="domain">Hardware &amp; Control</span>
-          <div class="tools"><span>PLCs</span><span>Jetson Nano</span><span>Raspberry Pi</span><span>Arduino</span><span>Altium</span></div>
+          <div class="tools"><span class="chip">PLCs</span><span class="chip">Jetson Nano</span><span class="chip">Raspberry Pi</span><span class="chip">Arduino</span><span class="chip">Altium</span></div>
         </div>
-        <div class="toolbox-row">
+        <div class="toolbox-row reveal">
           <span class="domain">Ops &amp; PM</span>
-          <div class="tools"><span>Agile/Scrum</span><span>Atlassian Jira</span><span>RPA Blue Prism</span><span>ISO Compliance</span><span>MS 365</span></div>
+          <div class="tools"><span class="chip">Agile/Scrum</span><span class="chip">Atlassian Jira</span><span class="chip">RPA Blue Prism</span><span class="chip">ISO Compliance</span><span class="chip">MS 365</span></div>
         </div>
-        <div class="toolbox-row">
+        <div class="toolbox-row reveal">
           <span class="domain">Languages</span>
           <div class="lang-row">
-            <span>English - C2</span>
-            <span>German - B1 → B2, in progress</span>
-            <span>French - B1</span>
-            <span>Arabic - native</span>
+            <span class="chip">English - C2</span>
+            <span class="chip">German - B1 &#8594; B2, in progress</span>
+            <span class="chip">French - B1</span>
+            <span class="chip">Arabic - native</span>
           </div>
         </div>
       </div>
@@ -633,21 +716,21 @@
 
   <section id="awards" class="alt">
     <div class="wrap">
-      <div class="callout"><span class="code">AW</span><span class="leader"></span><span class="label">Recognition</span></div>
+      <div class="tag-line"><span class="code">[ AW ]</span><span class="label">Recognition</span></div>
       <h2 class="section-title">Awards &amp; Recognition</h2>
 
       <div class="awards-grid">
-        <div class="award-card">
+        <div class="award-card reveal">
           <span class="badge">Competition</span>
           <h3>MATE ROV Competition 2021</h3>
           <p>2nd place worldwide, 1st place regional. Team Invictus UMVs (vehicle "Brotta II"). Technical documentation scored 101.5/100 - the only team to exceed 100 points.</p>
         </div>
-        <div class="award-card">
+        <div class="award-card reveal">
           <span class="badge">National Award</span>
           <h3>GPAct Talent Expo - 1st Place, National</h3>
           <p>For the Driver Monitoring System (bachelor thesis, graded A+).</p>
         </div>
-        <div class="award-card">
+        <div class="award-card reveal">
           <span class="badge">National Award</span>
           <h3>Rotaract District 2451 - Professional Development Committee, 1st Place</h3>
           <p>Won across 76 competing teams in the district, with Rotaract Alexandria New Era - the club Mo founded in 2019.</p>
@@ -658,25 +741,25 @@
 
   <section id="education">
     <div class="wrap">
-      <div class="callout"><span class="code">ED</span><span class="leader"></span><span class="label">Background</span></div>
+      <div class="tag-line"><span class="code">[ ED ]</span><span class="label">Background</span></div>
       <h2 class="section-title">Education</h2>
 
       <div class="edu-list">
-        <div class="edu-item">
+        <div class="edu-item reveal">
           <span class="dates">2026 - 2027<br>in progress</span>
           <div>
             <h3>M.Eng. - Mechatronics &amp; Cyber-Physical Systems</h3>
             <p class="org">Technische Hochschule Deggendorf (THD), Cham campus</p>
           </div>
         </div>
-        <div class="edu-item">
+        <div class="edu-item reveal">
           <span class="dates">2024 - 2026</span>
           <div>
             <h3>International Business</h3>
             <p class="org">Jade Hochschule, Wilhelmshaven</p>
           </div>
         </div>
-        <div class="edu-item">
+        <div class="edu-item reveal">
           <span class="dates">2018 - 2023</span>
           <div>
             <h3>B.Sc. - Mechatronics Engineering</h3>
@@ -687,29 +770,10 @@
     </div>
   </section>
 
-  <section class="titleblock">
-    <div class="wrap">
-      <div class="tb-grid">
-        <div class="tb-row"><span class="k">Title</span><span class="v">Capabilities Overview</span></div>
-        <div class="tb-row"><span class="k">Drawn by</span><span class="v">M. Kamel</span></div>
-        <div class="tb-row"><span class="k">Scale</span><span class="v">NTS</span></div>
-        <div class="tb-row"><span class="k">Sheet</span><span class="v">1 of 1</span></div>
-        <div class="tb-row"><span class="k">Rev</span><span class="v" id="rev-date"></span></div>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <script>
 (function(){
-  var revEl = document.getElementById('rev-date');
-  if (revEl){
-    var d = new Date();
-    var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-    revEl.textContent = months[d.getMonth()] + ' ' + d.getFullYear();
-  }
-
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav.subnav a'));
   var sections = navLinks.map(function(link){
     return document.querySelector(link.getAttribute('href'));
@@ -721,7 +785,7 @@
     });
   }
 
-  var observer = new IntersectionObserver(function(entries){
+  var navObserver = new IntersectionObserver(function(entries){
     var visible = entries.filter(function(e){ return e.isIntersecting; });
     if (visible.length){
       visible.sort(function(a,b){ return b.intersectionRatio - a.intersectionRatio; });
@@ -729,7 +793,20 @@
     }
   }, { rootMargin: '-35% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
 
-  sections.forEach(function(section){ observer.observe(section); });
+  sections.forEach(function(section){ navObserver.observe(section); });
+
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  var revealObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry, i){
+      if (entry.isIntersecting){
+        entry.target.style.transitionDelay = (i % 5) * 60 + 'ms';
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  revealEls.forEach(function(el){ revealObserver.observe(el); });
 })();
 </script>
 </body>
