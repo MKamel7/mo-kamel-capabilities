@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mo Kamel — Capabilities</title>
+<meta name="description" content="Mo Kamel — Mechatronics & Robotics Engineer. Autonomous systems, embedded perception, and test engineering capabilities.">
+<style>
+  :root{
+    --navy:#1A3A5C;
+    --midblue:#2E6DA4;
+    --pill:#EAF1F8;
+    --ink:#1d2733;
+    --muted:#5b6b7c;
+    --bg:#ffffff;
+    --line:#dfe7ef;
+    --mono:'JetBrains Mono','SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+    --sans:'Inter',Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.55;
+  }
+  a{color:var(--midblue);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  header.hero{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--midblue) 100%);
+    color:#fff;
+    padding:64px 0 48px;
+  }
+  header.hero h1{
+    margin:0 0 6px;
+    font-size:clamp(2rem,4vw,2.8rem);
+    letter-spacing:-0.02em;
+  }
+  header.hero .role{
+    font-size:1.05rem;
+    color:#dceaf7;
+    margin:0 0 18px;
+    max-width:680px;
+  }
+  header.hero .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px 22px;
+    font-size:0.92rem;
+    color:#eef5fb;
+  }
+  header.hero .meta span{display:inline-flex;align-items:center;gap:6px;}
+  header.hero .meta a{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.4);}
+
+  nav.subnav{
+    background:#fff;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    z-index:10;
+  }
+  nav.subnav .wrap{
+    display:flex;
+    gap:22px;
+    overflow-x:auto;
+    padding:12px 24px;
+    font-size:0.88rem;
+  }
+  nav.subnav a{color:var(--navy);font-weight:600;white-space:nowrap;}
+  nav.subnav a:hover{color:var(--midblue);text-decoration:none;}
+
+  section{padding:48px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  h2.section-title{
+    font-size:1.5rem;
+    color:var(--navy);
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  p.section-sub{
+    color:var(--muted);
+    margin:0 0 28px;
+    font-size:0.95rem;
+  }
+
+  .cap-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+  }
+  .cap-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:22px;
+    background:#fbfdff;
+  }
+  .cap-card h3{
+    margin:0 0 8px;
+    font-size:1.08rem;
+    color:var(--navy);
+  }
+  .cap-card .scope{
+    color:var(--muted);
+    font-size:0.92rem;
+    margin:0 0 14px;
+  }
+  .tools{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:14px;
+  }
+  .tools span{
+    background:var(--pill);
+    color:var(--navy);
+    font-size:0.78rem;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:600;
+  }
+  .proof{
+    border-top:1px dashed var(--line);
+    padding-top:12px;
+    margin-top:auto;
+  }
+  .proof-label{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    color:var(--midblue);
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:6px;
+  }
+  .proof p{margin:0 0 6px;font-size:0.9rem;color:var(--ink);}
+  .readout{
+    font-family:var(--mono);
+    font-size:0.82rem;
+    background:#0f2438;
+    color:#bfe0ff;
+    border-radius:6px;
+    padding:8px 12px;
+    margin:4px 0 0;
+    display:block;
+    white-space:pre-wrap;
+  }
+
+  /* Business track — visually distinct */
+  .biz-section{background:#f6f9fc;}
+  .biz-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:24px;
+  }
+  @media (max-width:760px){.biz-grid{grid-template-columns:1fr;}}
+  .biz-card{
+    border:1px solid var(--line);
+    border-left:4px solid var(--midblue);
+    border-radius:8px;
+    padding:22px;
+    background:#fff;
+  }
+  .biz-card h3{margin:0 0 10px;color:var(--navy);font-size:1.05rem;}
+  .biz-card ul{margin:0;padding-left:20px;font-size:0.92rem;}
+  .biz-card li{margin-bottom:6px;}
+  .cert-list{list-style:none;margin:0;padding:0;font-size:0.92rem;}
+  .cert-list li{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .cert-list li:last-child{border-bottom:none;}
+  .cert-list .yr{font-family:var(--mono);color:var(--muted);font-size:0.82rem;}
+
+  /* Toolbox */
+  .toolbox-grid{
+    display:grid;
+    gap:10px;
+  }
+  .toolbox-row{
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:16px;
+    align-items:start;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .toolbox-row:last-child{border-bottom:none;}
+  .toolbox-row .domain{
+    font-weight:700;
+    color:var(--navy);
+    font-size:0.92rem;
+  }
+  @media (max-width:600px){
+    .toolbox-row{grid-template-columns:1fr;gap:6px;}
+  }
+
+  /* Awards */
+  .awards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:18px;
+  }
+  .award-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px;
+    position:relative;
+    background:#fff;
+  }
+  .award-card .badge{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    color:var(--midblue);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    display:block;
+    margin-bottom:8px;
+  }
+  .award-card h3{margin:0 0 8px;font-size:1.02rem;color:var(--navy);}
+  .award-card p{margin:0;font-size:0.88rem;color:var(--muted);}
+
+  /* Education */
+  .edu-list{display:flex;flex-direction:column;gap:18px;}
+  .edu-item{
+    display:grid;
+    grid-template-columns:160px 1fr;
+    gap:18px;
+  }
+  @media (max-width:600px){.edu-item{grid-template-columns:1fr;}}
+  .edu-item .dates{
+    font-family:var(--mono);
+    font-size:0.82rem;
+    color:var(--midblue);
+    white-space:nowrap;
+  }
+  .edu-item h3{margin:0 0 4px;font-size:1rem;color:var(--ink);}
+  .edu-item .org{margin:0 0 6px;color:var(--muted);font-size:0.9rem;}
+  .edu-item .focus{margin:0;font-size:0.88rem;color:var(--ink);}
+
+  .lang-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:8px;
+  }
+  .lang-pill{
+    background:var(--pill);
+    color:var(--navy);
+    font-size:0.82rem;
+    padding:6px 12px;
+    border-radius:20px;
+    font-weight:600;
+  }
+
+  footer{
+    background:var(--navy);
+    color:#cfe0f1;
+    padding:36px 0;
+    font-size:0.88rem;
+  }
+  footer .wrap{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:12px;
+  }
+  footer a{color:#fff;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Mo Kamel</h1>
+    <p class="role">Mechatronics &amp; Robotics Engineer — Autonomous Systems · Embedded Perception · Test Engineering</p>
+    <div class="meta">
+      <span>📍 Regensburg, Germany</span>
+      <span>✉️ <a href="mailto:mkamel860@gmail.com">mkamel860@gmail.com</a></span>
+      <span>🔗 <a href="https://www.linkedin.com/in/mo-kamel7" target="_blank" rel="noopener">linkedin.com/in/mo-kamel7</a></span>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <div class="wrap">
+    <a href="#engineering">Engineering</a>
+    <a href="#business">Business &amp; Operations</a>
+    <a href="#toolbox">Technical Toolbox</a>
+    <a href="#awards">Awards</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="engineering">
+    <div class="wrap">
+      <h2 class="section-title">Engineering Capabilities</h2>
+      <p class="section-sub">Organized by domain — tools used and proof points.</p>
+
+      <div class="cap-grid">
+
+        <div class="cap-card">
+          <h3>Autonomous Robotics &amp; ROS 2</h3>
+          <p class="scope">Mobile and marine robotic platforms — perception, navigation, control on ROS 1 &amp; 2.</p>
+          <div class="tools">
+            <span>ROS 1 &amp; 2</span><span>Linux/Ubuntu</span><span>Python</span><span>Embedded C/C++</span><span>Sensor Fusion</span>
+          </div>
+          <div class="proof">
+            <span class="proof-label">Proof</span>
+            <p>MATE ROV 2021 — 2nd place worldwide, 1st regionally (team Invictus UMVs, vehicle "Brotta II"); technical documentation scored 101.5/100 — the only team to exceed 100 points.</p>
+          </div>
+        </div>
+
+        <div class="cap-card">
+          <h3>Computer Vision &amp; ADAS Perception</h3>
+          <p class="scope">Detection and driver-monitoring models trained on custom data and deployed to the edge.</p>
+          <div class="tools">
+            <span>OpenCV</span><span>YOLOv8</span><span>MediaPipe</span><span>PyTorch</span><span>TensorFlow</span><span>NumPy</span><span>Pandas</span>
+          </div>
+          <div class="proof">
+            <span class="proof-label">Proof — Driver Monitoring System (bachelor thesis, graded A+)</span>
+            <span class="readout">YOLOv8 phone detection · custom 150-image dataset
+97.8% mAP@0.5 · ~10 FPS on Raspberry Pi</span>
+            <span class="readout">MediaPipe drowsiness detection
+97.47% accuracy · ~18–20 FPS on Jetson Nano</span>
+          </div>
+        </div>
+
+        <div class="cap-card">
+          <h3>Embedded Systems &amp; Control</h3>
+          <p class="scope">Firmware and real-time control on microcontrollers and single-board computers.</p>
+          <div class="tools">
+            <span>Embedded C/C++</span><span>Jetson Nano</span><span>Raspberry Pi</span><span>Arduino</span><span>PLCs</span><span>Altium</span>
+          </div>
+          <div class="proof">
+            <span class="proof-label">Proof</span>
+            <span class="readout">PPG wearable band
+validated on 8 subjects</span>
+          </div>
+        </div>
+
+        <div class="cap-card">
+          <h3>Simulation &amp; Digital Twin</h3>
+          <p class="scope">Model-based design, control modelling, digital-twin case studies.</p>
+          <div class="tools">
+            <span>MATLAB</span><span>Simulink</span><span>Simscape</span><span>SolidWorks</span><span>Fusion 360</span><span>AutoCAD</span>
+          </div>
+          <div class="proof">
+            <span class="proof-label">Proof — M.Eng. coursework case studies</span>
+            <p>Robotic-arm digital twin / predictive maintenance, and multi-agent cooperative warehouse logistics.</p>
+          </div>
+        </div>
+
+        <div class="cap-card">
+          <h3>Test, Inspection &amp; Standards</h3>
+          <p class="scope">Industrial inspection and standards-compliant specification under live plant conditions.</p>
+          <div class="tools">
+            <span>ISO Compliance</span><span>Measurement &amp; Inspection</span><span>Technical Documentation</span>
+          </div>
+          <div class="proof">
+            <span class="proof-label">Proof</span>
+            <p>As Inspection Engineer at Alexandria Mineral Oils Co. (AMOC), authored an ISO 7751-compliant hose specification that was adopted company-wide.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="business" class="biz-section">
+    <div class="wrap">
+      <h2 class="section-title">Business &amp; Operations</h2>
+      <p class="section-sub">A separate capability track from engineering — program delivery, process, and compliance.</p>
+
+      <div class="biz-grid">
+        <div class="biz-card">
+          <h3>Competencies</h3>
+          <ul>
+            <li>Agile/Scrum</li>
+            <li>Atlassian Jira</li>
+            <li>RPA (Blue Prism)</li>
+            <li>International &amp; intercultural management</li>
+            <li>Accounting</li>
+            <li>International tax law</li>
+          </ul>
+          <div class="proof" style="margin-top:16px;">
+            <span class="proof-label">Proof</span>
+            <p>Chief of Organizers, IOI 2024 — 1,000+ international participants (large-scale program/event delivery).</p>
+          </div>
+        </div>
+
+        <div class="biz-card">
+          <h3>Certifications (2025)</h3>
+          <ul class="cert-list">
+            <li><span>Atlassian Jira (Agile/Scrum)</span><span class="yr">2025</span></li>
+            <li><span>Blue Prism RPA</span><span class="yr">2025</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="toolbox">
+    <div class="wrap">
+      <h2 class="section-title">Technical Toolbox</h2>
+      <p class="section-sub">Skills grouped by domain.</p>
+
+      <div class="toolbox-grid">
+        <div class="toolbox-row">
+          <span class="domain">Robot Software</span>
+          <div class="tools"><span>ROS 1 &amp; 2</span><span>Linux Ubuntu</span><span>OpenCV</span><span>YOLOv8</span><span>MediaPipe</span></div>
+        </div>
+        <div class="toolbox-row">
+          <span class="domain">Programming</span>
+          <div class="tools"><span>Python</span><span>Embedded C/C++</span><span>Git/GitHub Actions</span><span>CMake</span><span>Docker</span></div>
+        </div>
+        <div class="toolbox-row">
+          <span class="domain">ML &amp; Data</span>
+          <div class="tools"><span>TensorFlow</span><span>PyTorch</span><span>NumPy</span><span>Pandas</span></div>
+        </div>
+        <div class="toolbox-row">
+          <span class="domain">Simulation &amp; CAD</span>
+          <div class="tools"><span>MATLAB</span><span>Simulink</span><span>Simscape</span><span>SolidWorks</span><span>Fusion 360</span><span>AutoCAD</span></div>
+        </div>
+        <div class="toolbox-row">
+          <span class="domain">Hardware &amp; Control</span>
+          <div class="tools"><span>PLCs</span><span>Jetson Nano</span><span>Raspberry Pi</span><span>Arduino</span><span>Altium</span></div>
+        </div>
+        <div class="toolbox-row">
+          <span class="domain">Ops &amp; PM</span>
+          <div class="tools"><span>Agile/Scrum</span><span>Atlassian Jira</span><span>RPA Blue Prism</span><span>ISO Compliance</span><span>MS 365</span></div>
+        </div>
+        <div class="toolbox-row">
+          <span class="domain">Languages</span>
+          <div class="lang-row">
+            <span class="lang-pill">Arabic — native</span>
+            <span class="lang-pill">English — C2</span>
+            <span class="lang-pill">German — B1 → B2, in progress</span>
+            <span class="lang-pill">French — B1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="awards">
+    <div class="wrap">
+      <h2 class="section-title">Awards &amp; Recognition</h2>
+
+      <div class="awards-grid">
+        <div class="award-card">
+          <span class="badge">Competition</span>
+          <h3>MATE ROV Competition 2021</h3>
+          <p>2nd place worldwide, 1st place regional. Team Invictus UMVs (vehicle "Brotta II"). Technical documentation scored 101.5/100 — the only team to exceed 100 points.</p>
+        </div>
+        <div class="award-card">
+          <span class="badge">National Award</span>
+          <h3>GPAct Talent Expo — 1st Place, National</h3>
+          <p>For the Driver Monitoring System (bachelor thesis, graded A+).</p>
+        </div>
+        <div class="award-card">
+          <span class="badge">July 2022</span>
+          <h3>1st Place — Professional Development Committee, Rotaract District 2451 (Egypt)</h3>
+          <p>Won across 76 competing teams in the district, with Rotaract Alexandria New Era — the club Mo founded in 2019.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap">
+      <h2 class="section-title">Education</h2>
+
+      <div class="edu-list">
+        <div class="edu-item">
+          <span class="dates">2026 – 2027<br>in progress</span>
+          <div>
+            <h3>M.Eng. — Mechatronics &amp; Cyber-Physical Systems</h3>
+            <p class="org">Technische Hochschule Deggendorf (THD), Cham campus</p>
+          </div>
+        </div>
+        <div class="edu-item">
+          <span class="dates">2018 – 2023</span>
+          <div>
+            <h3>B.Sc. — Mechatronics Engineering</h3>
+            <p class="org">Arab Academy for Science, Technology &amp; Maritime Transport (AASTMT), Alexandria</p>
+          </div>
+        </div>
+        <div class="edu-item">
+          <span class="dates">2024 – 2026</span>
+          <div>
+            <h3>Business Administration</h3>
+            <p class="org">Jade Hochschule Wilhelmshaven</p>
+            <p class="focus">Focus: international management, project management, intercultural management, accounting, international tax law.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <span>© <span id="year"></span> Mo Kamel</span>
+    <span>
+      <a href="mailto:mkamel860@gmail.com">mkamel860@gmail.com</a> ·
+      <a href="https://www.linkedin.com/in/mo-kamel7" target="_blank" rel="noopener">LinkedIn</a>
+    </span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
