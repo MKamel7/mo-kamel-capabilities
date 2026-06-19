@@ -5,77 +5,103 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mo-Kamel</title>
 <meta name="description" content="Mo Kamel - Mechatronics & Robotics Engineer. Autonomous systems, embedded perception, and test engineering capabilities.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0A0F1C;
-    --bg-alt:#0D1426;
-    --surface:#121A30;
-    --surface-hover:#162038;
-    --line:rgba(255,255,255,0.08);
-    --line-soft:rgba(255,255,255,0.05);
-    --ink:#E8EDF6;
-    --muted:#8C9BB3;
-    --steel:#5B9BE0;
-    --accent:#D8B26C;
-    --accent-soft:rgba(216,178,108,0.12);
-    --accent-line:rgba(216,178,108,0.35);
-    --mono:'JetBrains Mono','SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
-    --sans:'Inter',Helvetica,Arial,sans-serif;
+    --blueprint:#0B1626;
+    --blueprint-deep:#070E1A;
+    --panel:#0F1D32;
+    --vellum:#E9EEF3;
+    --graphite:#7C8A9B;
+    --linework:rgba(207,227,242,0.14);
+    --linework-strong:rgba(207,227,242,0.28);
+    --stamp:#C2703D;
+    --stamp-soft:rgba(194,112,61,0.12);
+    --signal:#49C2D1;
+    --signal-soft:rgba(73,194,209,0.12);
+    --display:'Space Grotesk',sans-serif;
+    --mono:'IBM Plex Mono',Consolas,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
     font-family:var(--sans);
-    color:var(--ink);
-    background:var(--bg);
+    color:var(--vellum);
+    background:var(--blueprint);
     line-height:1.6;
+    -webkit-font-smoothing:antialiased;
   }
-  a{color:var(--steel);text-decoration:none;transition:color 0.2s ease;}
-  a:hover{color:var(--accent);}
+  a{color:var(--vellum);text-decoration:none;}
 
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- Sheet frame ---------- */
+  .sheet-frame{
+    position:fixed;
+    inset:14px;
+    border:1px solid var(--linework);
+    pointer-events:none;
+    z-index:50;
+  }
+  .sheet-frame i{
+    position:absolute;
+    width:14px;
+    height:14px;
+    border:1px solid var(--linework-strong);
+  }
+  .sheet-frame i:nth-child(1){top:-1px;left:-1px;border-right:none;border-bottom:none;}
+  .sheet-frame i:nth-child(2){top:-1px;right:-1px;border-left:none;border-bottom:none;}
+  .sheet-frame i:nth-child(3){bottom:-1px;left:-1px;border-right:none;border-top:none;}
+  .sheet-frame i:nth-child(4){bottom:-1px;right:-1px;border-left:none;border-top:none;}
+  @media (max-width:760px){.sheet-frame{display:none;}}
 
   /* ---------- Hero ---------- */
   header.hero{
-    background:
-      radial-gradient(circle at 85% 15%, rgba(216,178,108,0.10) 0%, transparent 45%),
-      radial-gradient(circle at 8% 95%, rgba(91,155,224,0.10) 0%, transparent 40%),
-      linear-gradient(135deg,#060A14 0%, #0C1428 55%, #122142 100%);
-    color:#fff;
-    padding:72px 0 56px;
-    position:relative;
-    overflow:hidden;
-    border-bottom:1px solid var(--line);
+    background:var(--blueprint-deep);
+    background-image:
+      linear-gradient(var(--linework) 1px, transparent 1px),
+      linear-gradient(90deg, var(--linework) 1px, transparent 1px);
+    background-size:48px 48px;
+    background-position:center;
+    padding:88px 0 64px;
+    border-bottom:1px solid var(--linework-strong);
   }
   .hero-inner{
     display:flex;
     align-items:center;
-    gap:40px;
-    position:relative;
-    z-index:1;
+    gap:44px;
   }
-  .hero-photo-ring{
+  .photo-reticle{
     flex:0 0 auto;
-    width:172px;
-    height:172px;
+    width:148px;
+    height:148px;
+    position:relative;
+  }
+  .photo-reticle .ring{
+    position:absolute;
+    inset:0;
     border-radius:50%;
-    background:linear-gradient(135deg,var(--accent) 0%, var(--steel) 100%);
-    padding:4px;
-    box-shadow:0 16px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
-    transition:transform 0.35s ease, box-shadow 0.35s ease;
+    border:1px solid var(--linework-strong);
   }
-  .hero-photo-ring:hover{
-    transform:scale(1.045) rotate(1deg);
-    box-shadow:0 20px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08);
+  .photo-reticle .tick{
+    position:absolute;
+    background:var(--graphite);
   }
-  .hero-photo{
-    width:100%;
-    height:100%;
+  .photo-reticle .tick.n{top:-9px;left:50%;width:1px;height:8px;transform:translateX(-50%);}
+  .photo-reticle .tick.s{bottom:-9px;left:50%;width:1px;height:8px;transform:translateX(-50%);}
+  .photo-reticle .tick.e{right:-9px;top:50%;width:8px;height:1px;transform:translateY(-50%);}
+  .photo-reticle .tick.w{left:-9px;top:50%;width:8px;height:1px;transform:translateY(-50%);}
+  .photo-reticle .frame{
+    position:absolute;
+    inset:8px;
     border-radius:50%;
     overflow:hidden;
-    background:#fff;
+    background:var(--vellum);
   }
-  .hero-photo img{
+  .photo-reticle .frame img{
     width:100%;
     height:100%;
     object-fit:cover;
@@ -83,356 +109,347 @@
     display:block;
   }
   .hero-text h1{
-    margin:0 0 10px;
-    font-size:clamp(2.1rem,4vw,2.9rem);
-    letter-spacing:-0.02em;
-    background:linear-gradient(135deg,#fff 30%, #cfe0f5 100%);
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
+    font-family:var(--display);
+    font-weight:600;
+    margin:0 0 8px;
+    font-size:clamp(2.1rem,4vw,2.7rem);
+    letter-spacing:-0.01em;
+    color:var(--vellum);
   }
   .hero-text .role{
-    font-size:1.12rem;
-    color:#fff;
-    margin:0 0 6px;
-    font-weight:600;
+    font-family:var(--display);
+    font-size:1.05rem;
+    color:var(--vellum);
+    margin:0 0 4px;
+    font-weight:500;
   }
   .hero-text .role-sub{
     display:block;
-    font-size:0.96rem;
-    color:var(--accent);
-    font-weight:500;
-    margin:4px 0 18px;
+    font-family:var(--mono);
+    font-size:0.82rem;
+    color:var(--signal);
+    margin:6px 0 20px;
     letter-spacing:0.01em;
   }
   .hero-text .meta{
     display:flex;
     flex-wrap:wrap;
-    gap:14px 22px;
-    font-size:0.92rem;
-    color:#cfd9e8;
+    gap:10px 26px;
+    font-family:var(--mono);
+    font-size:0.78rem;
+    color:var(--graphite);
   }
-  .hero-text .meta span{display:inline-flex;align-items:center;gap:6px;}
-  .hero-text .meta a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);}
-  .hero-text .meta a:hover{color:var(--accent);border-bottom-color:var(--accent);}
+  .hero-text .meta span{display:inline-flex;align-items:baseline;gap:8px;}
+  .hero-text .meta .tag{color:var(--graphite);text-transform:uppercase;letter-spacing:0.08em;font-size:0.68rem;}
+  .hero-text .meta a{color:var(--vellum);border-bottom:1px solid var(--linework-strong);}
+  .hero-text .meta a:hover{color:var(--signal);border-bottom-color:var(--signal);}
 
   @media (max-width:600px){
-    .hero-inner{flex-direction:column;align-items:flex-start;gap:24px;}
-    .hero-photo-ring{width:128px;height:128px;}
+    .hero-inner{flex-direction:column;align-items:flex-start;gap:26px;}
   }
 
   /* ---------- Nav ---------- */
   nav.subnav{
-    background:rgba(10,15,28,0.92);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line);
+    background:rgba(11,22,38,0.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--linework-strong);
     position:sticky;
     top:0;
     z-index:10;
   }
   nav.subnav .wrap{
     display:flex;
-    gap:28px;
+    gap:30px;
     overflow-x:auto;
-    padding:14px 24px;
-    font-size:0.88rem;
+    padding:14px 28px;
+    font-family:var(--mono);
+    font-size:0.78rem;
   }
   nav.subnav a{
-    color:#cfd9e8;
-    font-weight:600;
+    color:var(--graphite);
     white-space:nowrap;
     position:relative;
     padding-bottom:4px;
+    letter-spacing:0.02em;
   }
   nav.subnav a::after{
     content:"";
     position:absolute;
-    left:50%;
-    right:50%;
+    left:0;
+    right:100%;
     bottom:0;
-    height:2px;
-    background:var(--accent);
-    transition:left 0.25s ease, right 0.25s ease;
+    height:1px;
+    background:var(--signal);
+    transition:right 0.25s ease;
   }
-  nav.subnav a:hover{color:#fff;}
-  nav.subnav a:hover::after{left:0;right:0;}
-  nav.subnav a.active{color:var(--accent);}
-  nav.subnav a.active::after{left:0;right:0;background:var(--accent);}
+  nav.subnav a:hover{color:var(--vellum);}
+  nav.subnav a:hover::after{right:0;}
+  nav.subnav a.active{color:var(--signal);}
+  nav.subnav a.active::after{right:0;}
 
   /* ---------- Sections ---------- */
-  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  section{padding:60px 0;border-bottom:1px solid var(--linework);}
   section:last-of-type{border-bottom:none;}
-  section.alt{background:var(--bg-alt);}
+  section.alt{background:var(--blueprint-deep);}
 
-  .kicker{
-    display:inline-flex;
+  .callout{
+    display:flex;
     align-items:center;
-    gap:8px;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .callout .code{
     font-family:var(--mono);
     font-size:0.72rem;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--accent);
-    margin-bottom:10px;
+    font-weight:600;
+    color:var(--blueprint);
+    background:var(--signal);
+    padding:3px 7px;
+    letter-spacing:0.04em;
   }
-  .kicker::before{
-    content:"";
-    width:18px;
+  .callout .leader{
+    flex:0 0 auto;
+    width:28px;
     height:1px;
-    background:var(--accent);
-    display:inline-block;
+    background:var(--linework-strong);
+  }
+  .callout .label{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--graphite);
   }
   h2.section-title{
-    font-size:1.6rem;
-    color:#fff;
+    font-family:var(--display);
+    font-size:1.5rem;
+    font-weight:600;
+    color:var(--vellum);
     margin:0 0 6px;
-    letter-spacing:-0.01em;
   }
   p.section-sub{
-    color:var(--muted);
-    margin:0 0 30px;
-    font-size:0.95rem;
+    color:var(--graphite);
+    margin:0 0 32px;
+    font-size:0.92rem;
+    max-width:560px;
   }
 
-  /* ---------- Capability cards ---------- */
+  /* ---------- Capability entries (datasheet rows) ---------- */
   .cap-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
-    gap:20px;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:1px;
+    background:var(--linework);
+    border:1px solid var(--linework);
   }
   .cap-card{
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:24px;
-    background:var(--surface);
+    background:var(--panel);
+    padding:26px;
     display:flex;
     flex-direction:column;
-    transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
   }
-  .cap-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 18px 36px rgba(0,0,0,0.45), 0 0 0 1px var(--accent-line);
-    border-color:var(--accent-line);
-    background:var(--surface-hover);
+  .cap-card .ref{
+    font-family:var(--mono);
+    font-size:0.68rem;
+    color:var(--graphite);
+    letter-spacing:0.06em;
+    margin-bottom:10px;
+    transition:color 0.2s ease;
   }
   .cap-card h3{
+    font-family:var(--display);
+    font-weight:600;
     margin:0 0 8px;
-    font-size:1.1rem;
-    color:#fff;
+    font-size:1.05rem;
+    color:var(--vellum);
+    position:relative;
+    display:inline-block;
+    padding-bottom:10px;
   }
+  .cap-card h3::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    height:1px;
+    width:0;
+    background:var(--signal);
+    transition:width 0.3s ease;
+  }
+  .cap-card:hover h3::after{width:100%;}
+  .cap-card:hover .ref{color:var(--signal);}
   .cap-card .scope{
-    color:var(--muted);
-    font-size:0.92rem;
+    color:var(--graphite);
+    font-size:0.88rem;
     margin:0 0 16px;
   }
   .tools{
     display:flex;
     flex-wrap:wrap;
-    gap:6px;
+    gap:5px 12px;
     margin-bottom:18px;
+    font-family:var(--mono);
+    font-size:0.74rem;
+    color:var(--graphite);
   }
-  .tools span{
-    background:rgba(255,255,255,0.05);
-    border:1px solid var(--line);
-    color:var(--ink);
-    font-size:0.76rem;
-    padding:4px 10px;
-    border-radius:20px;
-    font-weight:600;
-    transition:background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-  }
-  .tools span:hover{
-    background:var(--accent);
-    color:#0A0F1C;
-    border-color:var(--accent);
-    transform:translateY(-2px);
-  }
+  .tools span:not(:last-child)::after{content:" /";margin-left:12px;color:var(--linework-strong);}
 
   .impact{
-    border-top:1px solid var(--line);
+    border-top:1px solid var(--linework);
     padding-top:14px;
     margin-top:auto;
   }
   .impact-kicker{
     font-family:var(--mono);
-    font-size:0.68rem;
+    font-size:0.66rem;
     letter-spacing:0.1em;
-    color:var(--accent);
+    color:var(--stamp);
     text-transform:uppercase;
     display:block;
     margin-bottom:8px;
   }
-  .impact p{margin:0 0 10px;font-size:0.88rem;color:#cfd9e8;}
+  .impact p{margin:0 0 10px;font-size:0.86rem;color:var(--vellum);}
   .impact .caption{
-    font-size:0.82rem;
-    color:var(--muted);
-    margin:0 0 8px;
+    font-size:0.8rem;
+    color:var(--graphite);
+    margin:0 0 6px;
   }
   .metric-row{
     display:flex;
     flex-wrap:wrap;
-    gap:8px;
+    gap:6px 16px;
     margin-bottom:10px;
+    font-family:var(--mono);
+    font-size:0.78rem;
   }
   .metric-row:last-child{margin-bottom:0;}
   .metric{
-    background:var(--accent-soft);
-    border:1px solid var(--accent-line);
-    color:var(--accent);
-    padding:6px 12px;
-    border-radius:8px;
-    font-family:var(--mono);
-    font-size:0.78rem;
-    font-weight:600;
+    color:var(--stamp);
     white-space:nowrap;
   }
+  .metric::before{content:"\2192";margin-right:6px;color:var(--graphite);}
 
-  /* ---------- Business cards ---------- */
-  .biz-grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:24px;
-  }
-  .biz-card{
-    border:1px solid var(--line);
-    border-left:3px solid var(--steel);
-    border-radius:12px;
-    padding:24px;
-    background:var(--surface);
-    transition:border-left-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-  }
-  .biz-card:hover{
-    border-left-color:var(--accent);
-    box-shadow:0 18px 36px rgba(0,0,0,0.4);
-    transform:translateY(-4px);
-  }
-  .biz-card h3{margin:0 0 12px;color:#fff;font-size:1.05rem;}
-  .biz-card ul{margin:0;padding-left:20px;font-size:0.92rem;color:#cfd9e8;}
-  .biz-card li{margin-bottom:6px;}
+  /* ---------- Business ---------- */
+  .biz-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--linework);border:1px solid var(--linework);}
+  .biz-card{background:var(--panel);padding:26px;}
+  .biz-card h3{font-family:var(--display);font-weight:600;margin:0 0 12px;color:var(--vellum);font-size:1.02rem;}
+  .biz-card ul{margin:0;padding-left:0;font-size:0.9rem;color:var(--vellum);list-style:none;}
+  .biz-card li{margin-bottom:7px;padding-left:16px;position:relative;}
+  .biz-card li::before{content:"-";position:absolute;left:0;color:var(--graphite);}
 
   /* ---------- Toolbox ---------- */
-  .toolbox-grid{
-    display:grid;
-    gap:4px;
-  }
+  .toolbox-grid{display:grid;}
   .toolbox-row{
     display:grid;
-    grid-template-columns:180px 1fr;
-    gap:16px;
-    align-items:start;
-    padding:14px 14px;
-    border-bottom:1px solid var(--line-soft);
-    border-radius:8px;
-    transition:background 0.2s ease;
+    grid-template-columns:170px 1fr;
+    gap:18px;
+    align-items:baseline;
+    padding:13px 0;
+    border-bottom:1px solid var(--linework);
   }
-  .toolbox-row:hover{background:var(--surface);}
   .toolbox-row:last-child{border-bottom:none;}
   .toolbox-row .domain{
-    font-weight:700;
-    color:#fff;
-    font-size:0.92rem;
-  }
-  @media (max-width:600px){
-    .toolbox-row{grid-template-columns:1fr;gap:6px;}
-  }
-
-  /* ---------- Awards ---------- */
-  .awards-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:18px;
-  }
-  .award-card{
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:22px;
-    position:relative;
-    background:var(--surface);
-    transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-  }
-  .award-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 18px 36px rgba(0,0,0,0.45), 0 0 0 1px var(--accent-line);
-    border-color:var(--accent-line);
-    background:var(--surface-hover);
-  }
-  .award-card .badge{
     font-family:var(--mono);
-    font-size:0.7rem;
-    color:var(--accent);
+    font-weight:500;
+    color:var(--graphite);
+    font-size:0.78rem;
     text-transform:uppercase;
-    letter-spacing:0.06em;
-    display:block;
-    margin-bottom:10px;
+    letter-spacing:0.05em;
   }
-  .award-card h3{margin:0 0 8px;font-size:1.02rem;color:#fff;}
-  .award-card p{margin:0;font-size:0.88rem;color:var(--muted);}
-
-  /* ---------- Education ---------- */
-  .edu-list{display:flex;flex-direction:column;gap:14px;}
-  .edu-item{
-    display:grid;
-    grid-template-columns:160px 1fr;
-    gap:18px;
-    padding:14px;
-    border-radius:8px;
-    border:1px solid transparent;
-    transition:background 0.2s ease, border-color 0.2s ease;
+  .toolbox-row .tools{margin-bottom:0;color:var(--vellum);}
+  .toolbox-row .tools span:not(:last-child)::after{color:var(--linework-strong);}
+  @media (max-width:600px){
+    .toolbox-row{grid-template-columns:1fr;gap:4px;}
   }
-  .edu-item:hover{background:var(--surface);border-color:var(--line);}
-  @media (max-width:600px){.edu-item{grid-template-columns:1fr;}}
-  .edu-item .dates{
-    font-family:var(--mono);
-    font-size:0.82rem;
-    color:var(--steel);
-    white-space:nowrap;
-  }
-  .edu-item h3{margin:0 0 4px;font-size:1rem;color:#fff;}
-  .edu-item .org{margin:0;color:var(--muted);font-size:0.9rem;}
 
   .lang-row{
     display:flex;
     flex-wrap:wrap;
-    gap:10px;
-    margin-top:8px;
+    gap:6px 16px;
+    font-family:var(--mono);
+    font-size:0.78rem;
+    color:var(--vellum);
   }
-  .lang-pill{
-    background:rgba(255,255,255,0.05);
-    border:1px solid var(--line);
-    color:var(--ink);
-    font-size:0.82rem;
-    padding:6px 12px;
-    border-radius:20px;
-    font-weight:600;
-    transition:background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-  }
-  .lang-pill:hover{
-    background:var(--accent);
-    color:#0A0F1C;
-    border-color:var(--accent);
-    transform:translateY(-2px);
-  }
+  .lang-row span:not(:last-child)::after{content:" /";margin-left:16px;color:var(--linework-strong);}
 
+  /* ---------- Awards ---------- */
+  .awards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--linework);border:1px solid var(--linework);}
+  .award-card{background:var(--panel);padding:24px;}
+  .award-card .badge{
+    font-family:var(--mono);
+    font-size:0.66rem;
+    color:var(--stamp);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:10px;
+  }
+  .award-card .badge::before{content:"\2713 ";}
+  .award-card h3{font-family:var(--display);font-weight:600;margin:0 0 8px;font-size:0.98rem;color:var(--vellum);}
+  .award-card p{margin:0;font-size:0.86rem;color:var(--graphite);}
+
+  /* ---------- Education ---------- */
+  .edu-list{display:flex;flex-direction:column;}
+  .edu-item{
+    display:grid;
+    grid-template-columns:150px 1fr;
+    gap:18px;
+    padding:16px 0;
+    border-bottom:1px solid var(--linework);
+  }
+  .edu-item:last-child{border-bottom:none;}
+  @media (max-width:600px){.edu-item{grid-template-columns:1fr;}}
+  .edu-item .dates{
+    font-family:var(--mono);
+    font-size:0.78rem;
+    color:var(--signal);
+    white-space:nowrap;
+  }
+  .edu-item h3{font-family:var(--display);font-weight:600;margin:0 0 4px;font-size:0.98rem;color:var(--vellum);}
+  .edu-item .org{margin:0;color:var(--graphite);font-size:0.86rem;}
+
+  /* ---------- Title block (signature) ---------- */
+  .titleblock{padding:60px 0 80px;}
+  .tb-grid{
+    border:1px solid var(--linework-strong);
+    font-family:var(--mono);
+    font-size:0.76rem;
+    max-width:520px;
+  }
+  .tb-row{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--linework);}
+  .tb-row:last-child{border-bottom:none;}
+  .tb-row .k{
+    padding:10px 14px;
+    color:var(--graphite);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    border-right:1px solid var(--linework);
+    font-size:0.68rem;
+  }
+  .tb-row .v{padding:10px 14px;color:var(--vellum);}
 </style>
 </head>
 <body>
 
+<div class="sheet-frame"><i></i><i></i><i></i><i></i></div>
+
 <header class="hero">
   <div class="wrap hero-inner">
-    <div class="hero-photo-ring">
-      <div class="hero-photo">
+    <div class="photo-reticle">
+      <div class="ring"></div>
+      <div class="tick n"></div><div class="tick s"></div><div class="tick e"></div><div class="tick w"></div>
+      <div class="frame">
         <img src="pfp.png" alt="Mo Kamel">
       </div>
     </div>
     <div class="hero-text">
       <h1>Mo Kamel</h1>
-      <p class="role">Mechatronics &amp; Robotics Engineer
-        <span class="role-sub">Autonomous Systems · Embedded Perception · Test Engineering</span>
-      </p>
+      <p class="role">Mechatronics &amp; Robotics Engineer</p>
+      <span class="role-sub">Autonomous Systems / Embedded Perception / Test Engineering</span>
       <div class="meta">
-        <span>📍 Regensburg, Germany</span>
-        <span>✉️ <a href="mailto:mkamel860@gmail.com">mkamel860@gmail.com</a></span>
-        <span>🔗 <a href="https://www.linkedin.com/in/mo-kamel7" target="_blank" rel="noopener">linkedin.com/in/mo-kamel7</a></span>
+        <span><span class="tag">Loc</span> Regensburg, Germany</span>
+        <span><span class="tag">Mail</span> <a href="mailto:mkamel860@gmail.com">mkamel860@gmail.com</a></span>
+        <span><span class="tag">Net</span> <a href="https://www.linkedin.com/in/mo-kamel7" target="_blank" rel="noopener">linkedin.com/in/mo-kamel7</a></span>
       </div>
     </div>
   </div>
@@ -452,13 +469,14 @@
 
   <section id="engineering">
     <div class="wrap">
-      <span class="kicker">Capabilities</span>
+      <div class="callout"><span class="code">EN</span><span class="leader"></span><span class="label">Engineering</span></div>
       <h2 class="section-title">Engineering Capabilities</h2>
-      <p class="section-sub">Organized by domain - tools used and proof points.</p>
+      <p class="section-sub">Organized by domain - tools used and track-record results.</p>
 
       <div class="cap-grid">
 
         <div class="cap-card">
+          <span class="ref">REF EN-01</span>
           <h3>Autonomous Robotics &amp; ROS 2</h3>
           <p class="scope">Mobile and marine robotic platforms - perception, navigation, control on ROS 1 &amp; 2.</p>
           <div class="tools">
@@ -475,6 +493,7 @@
         </div>
 
         <div class="cap-card">
+          <span class="ref">REF EN-02</span>
           <h3>Computer Vision &amp; ADAS Perception</h3>
           <p class="scope">Detection and driver-monitoring models trained on custom data and deployed to the edge.</p>
           <div class="tools">
@@ -497,6 +516,7 @@
         </div>
 
         <div class="cap-card">
+          <span class="ref">REF EN-03</span>
           <h3>Embedded Systems &amp; Control</h3>
           <p class="scope">Firmware and real-time control on microcontrollers and single-board computers.</p>
           <div class="tools">
@@ -512,6 +532,7 @@
         </div>
 
         <div class="cap-card">
+          <span class="ref">REF EN-04</span>
           <h3>Simulation &amp; Digital Twin</h3>
           <p class="scope">Model-based design, control modelling, digital-twin case studies.</p>
           <div class="tools">
@@ -524,6 +545,7 @@
         </div>
 
         <div class="cap-card">
+          <span class="ref">REF EN-05</span>
           <h3>Test, Inspection &amp; Standards</h3>
           <p class="scope">Industrial inspection and standards-compliant specification under live plant conditions.</p>
           <div class="tools">
@@ -541,7 +563,7 @@
 
   <section id="business" class="alt">
     <div class="wrap">
-      <span class="kicker">Operations</span>
+      <div class="callout"><span class="code">BU</span><span class="leader"></span><span class="label">Business</span></div>
       <h2 class="section-title">Business &amp; Operations</h2>
       <p class="section-sub">A separate capability track from engineering - program delivery, process, and compliance.</p>
 
@@ -556,7 +578,7 @@
             <li>Accounting</li>
             <li>International tax law</li>
           </ul>
-          <div class="impact" style="border-top:1px solid var(--line);margin-top:16px;padding-top:14px;">
+          <div class="impact" style="border-top:1px solid var(--linework);margin-top:16px;padding-top:14px;">
             <span class="impact-kicker">Track Record</span>
             <p>Chief of Organizers, IOI 2024 - 1,000+ international participants (large-scale program/event delivery).</p>
           </div>
@@ -567,7 +589,7 @@
 
   <section id="toolbox">
     <div class="wrap">
-      <span class="kicker">Skillset</span>
+      <div class="callout"><span class="code">TB</span><span class="leader"></span><span class="label">Skillset</span></div>
       <h2 class="section-title">Technical Toolbox</h2>
       <p class="section-sub">Skills grouped by domain.</p>
 
@@ -599,10 +621,10 @@
         <div class="toolbox-row">
           <span class="domain">Languages</span>
           <div class="lang-row">
-            <span class="lang-pill">English - C2</span>
-            <span class="lang-pill">German - B1 → B2, in progress</span>
-            <span class="lang-pill">French - B1</span>
-            <span class="lang-pill">Arabic - native</span>
+            <span>English - C2</span>
+            <span>German - B1 → B2, in progress</span>
+            <span>French - B1</span>
+            <span>Arabic - native</span>
           </div>
         </div>
       </div>
@@ -611,7 +633,7 @@
 
   <section id="awards" class="alt">
     <div class="wrap">
-      <span class="kicker">Recognition</span>
+      <div class="callout"><span class="code">AW</span><span class="leader"></span><span class="label">Recognition</span></div>
       <h2 class="section-title">Awards &amp; Recognition</h2>
 
       <div class="awards-grid">
@@ -636,7 +658,7 @@
 
   <section id="education">
     <div class="wrap">
-      <span class="kicker">Background</span>
+      <div class="callout"><span class="code">ED</span><span class="leader"></span><span class="label">Background</span></div>
       <h2 class="section-title">Education</h2>
 
       <div class="edu-list">
@@ -665,10 +687,29 @@
     </div>
   </section>
 
+  <section class="titleblock">
+    <div class="wrap">
+      <div class="tb-grid">
+        <div class="tb-row"><span class="k">Title</span><span class="v">Capabilities Overview</span></div>
+        <div class="tb-row"><span class="k">Drawn by</span><span class="v">M. Kamel</span></div>
+        <div class="tb-row"><span class="k">Scale</span><span class="v">NTS</span></div>
+        <div class="tb-row"><span class="k">Sheet</span><span class="v">1 of 1</span></div>
+        <div class="tb-row"><span class="k">Rev</span><span class="v" id="rev-date"></span></div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <script>
 (function(){
+  var revEl = document.getElementById('rev-date');
+  if (revEl){
+    var d = new Date();
+    var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    revEl.textContent = months[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav.subnav a'));
   var sections = navLinks.map(function(link){
     return document.querySelector(link.getAttribute('href'));
