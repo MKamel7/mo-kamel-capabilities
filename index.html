@@ -27,7 +27,11 @@
     --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   html,body{margin:0;padding:0;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
   body{
     font-family:var(--sans);
     color:var(--text);
@@ -361,7 +365,7 @@
   nav.subnav a.active::after{right:0;}
 
   /* ---------- Sections ---------- */
-  section{padding:64px 0;border-bottom:1px solid var(--line);}
+  section{padding:64px 0;border-bottom:1px solid var(--line);scroll-margin-top:60px;}
   section:last-of-type{border-bottom:none;}
   section.alt{background:var(--bg-soft);}
   @media (max-width:600px){
