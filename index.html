@@ -73,7 +73,7 @@
     height:100%;
     border-radius:50%;
     overflow:hidden;
-    border:3px solid #060A14;
+    background:#fff;
   }
   .hero-photo img{
     width:100%;
@@ -413,21 +413,6 @@
     transform:translateY(-2px);
   }
 
-  /* ---------- Footer ---------- */
-  footer{
-    background:#060A14;
-    color:#9fb0c8;
-    padding:40px 0;
-    font-size:0.88rem;
-  }
-  footer .wrap{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:space-between;
-    gap:12px;
-  }
-  footer a{color:#fff;border-bottom:1px solid rgba(255,255,255,0.25);}
-  footer a:hover{color:var(--accent);border-bottom-color:var(--accent);}
 </style>
 </head>
 <body>
@@ -460,7 +445,6 @@
     <a href="#toolbox">Technical Toolbox</a>
     <a href="#awards">Awards</a>
     <a href="#education">Education</a>
-    <a href="#contact">Contact</a>
   </div>
 </nav>
 
@@ -615,10 +599,10 @@
         <div class="toolbox-row">
           <span class="domain">Languages</span>
           <div class="lang-row">
-            <span class="lang-pill">Arabic - native</span>
             <span class="lang-pill">English - C2</span>
             <span class="lang-pill">German - B1 → B2, in progress</span>
             <span class="lang-pill">French - B1</span>
+            <span class="lang-pill">Arabic - native</span>
           </div>
         </div>
       </div>
@@ -683,19 +667,7 @@
 
 </main>
 
-<footer id="contact">
-  <div class="wrap">
-    <span>© <span id="year"></span> Mo Kamel</span>
-    <span>
-      <a href="mailto:mkamel860@gmail.com">mkamel860@gmail.com</a> ·
-      <a href="https://www.linkedin.com/in/mo-kamel7" target="_blank" rel="noopener">LinkedIn</a>
-    </span>
-  </div>
-</footer>
-
 <script>
-document.getElementById('year').textContent = new Date().getFullYear();
-
 (function(){
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav.subnav a'));
   var sections = navLinks.map(function(link){
